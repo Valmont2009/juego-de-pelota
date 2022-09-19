@@ -1,77 +1,69 @@
-//variables o constantes que nos ayuda a acceder a la libreria de matter
+
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
 
-var btn2;
-
+let engine;
+let world;
 var angle=60;
 
+var ground;
 
+var fan,fan1,fan2,fan3;
+var ball;
+
+var btn1;
+var btn2;
 function setup() {
   createCanvas(400,400);
-// motor fisico que le da el movimiento al rectangulo
+
   engine = Engine.create();
   world = engine.world;
   
    var ball_options = {
     restitution: 0.95,
-    frictionAir:0.01
   }
    
-   var ground_options ={
-     isStatic: true
-   };
-  
-   btn2 = createImg('up.png');
-  btn2.position(350,30);
+  var ground_options ={
+    isStatic: true
+  };
+  ground = Bodies.rectangle(0,400,400,20,ground_options);
+ World.add(world,ground); 
+  btn2 = createImg('up.png');
+  btn2.position(20,30);
   btn2.size(50,50);
-  btn2.mouseClicked(vForce);
+  btn2.mouseClicked(vForce);  
+ fan = new Ground(50,370,50,30);
+ fan1 = new Ground(150,370,50,30);
+  fan2 = new Ground(250,370,50,30);
+  fan3 = new Ground(350,370,50,30);
 
-  ground1 = Bodies.rectangle(100,300,100,20,ground_options);
-  World.add(world,ground1);
-
-  ball = Bodies.circle(100,10,20,ball_options);
+  ball = Bodies.circle(200,200,20,ball_options);
   World.add(world,ball);
-  
- 
-  ground = Bodies.rectangle(100,400,650,20,ground_options);
-  World.add(world,ground); 
-  
-  rectMode(CENTER);
+
+    rectMode(CENTER);
   ellipseMode(RADIUS);
-  //nos ayuda visualizar al hacer pruebas
 }
 
 
 function draw() 
 {
-  //nos ayuda a cambiar de color de nuestro fondo 
-  background(2);
+  background(51);
   Engine.update(engine);
   
   
-  Matter.Body.rotate(ground1,angle)
- push();
-  translate(ground1.position.x,ground1.position.y);
-  rotate(angle);
-  rect(0,0,100,20);
-  pop();
-  
-  angle +=0.1;
-
- 
 
   ellipse(ball.position.x,ball.position.y,20);
-  rect(ground.position.x,ground.position.y,650,20);
- 
-//console.log(ground.position.y);
-
-  
-  
+ rect(ground.position.x,ground.position.y,750,20);
+    fan.show();
+fan1.show();
+fan2.show();
+  fan3.show();
+  Engine.update(engine);
 }
-//funcion que aplica a la fuersa sobre a la pelota
+
+
 function vForce()
 {
   Matter.Body.applyForce(ball,{x:0,y:0},{x:0,y:-0.05});
